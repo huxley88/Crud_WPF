@@ -6,10 +6,11 @@ namespace Crud_WPF.Repository.Interfaces
 {
     public interface IClienteRepository 
     {
-        Task<IEnumerable<List<ClienteDTO>>> ObterTodos(ClienteFiltroDTO filtros);
+        Task<List<ClienteDTO>> ObterTodos(ClienteFiltroDTO filtros);
         Task<ClienteDTO> ObterPorId(int id);
         Task<ClienteDTO> ObterPorCpf(string cpf);
         Task<ClienteDTO> IncluirDTOAsync(ClienteDTO cliente);
+        Task ImportarClientes(List<ClienteDTO> clientes);
         Task<ClienteDTO> AlterarDTOAsync(ClienteDTO cliente);
         Task<ClienteDTO> RemoverDTOAsync(ClienteDTO cliente);
     }

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\huxley.ruanis\\source\\repos\\Crud_WPF\\Crud_API\\Crud_API.csproj": {}
+    "C:\\Users\\Huxxl\\source\\repos\\Crud_WPF\\Crud_API\\Crud_API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\huxley.ruanis\\source\\repos\\Crud_WPF\\Crud_API\\Crud_API.csproj": {
+    "C:\\Users\\Huxxl\\source\\repos\\Crud_WPF\\Crud_API\\Crud_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\huxley.ruanis\\source\\repos\\Crud_WPF\\Crud_API\\Crud_API.csproj",
+        "projectUniqueName": "C:\\Users\\Huxxl\\source\\repos\\Crud_WPF\\Crud_API\\Crud_API.csproj",
         "projectName": "Crud_API",
-        "projectPath": "C:\\Users\\huxley.ruanis\\source\\repos\\Crud_WPF\\Crud_API\\Crud_API.csproj",
-        "packagesPath": "C:\\Users\\huxley.ruanis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\huxley.ruanis\\source\\repos\\Crud_WPF\\Crud_API\\obj\\",
+        "projectPath": "C:\\Users\\Huxxl\\source\\repos\\Crud_WPF\\Crud_API\\Crud_API.csproj",
+        "packagesPath": "C:\\Users\\Huxxl\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Huxxl\\source\\repos\\Crud_WPF\\Crud_API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\huxley.ruanis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Huxxl\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,8 +32,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\huxley.ruanis\\source\\repos\\Crud_WPF\\Crud_WPF\\Crud_WPF.csproj": {
-                "projectPath": "C:\\Users\\huxley.ruanis\\source\\repos\\Crud_WPF\\Crud_WPF\\Crud_WPF.csproj"
+              "C:\\Users\\Huxxl\\source\\repos\\Crud_WPF\\Crud_WPF\\Crud_WPF.csproj": {
+                "projectPath": "C:\\Users\\Huxxl\\source\\repos\\Crud_WPF\\Crud_WPF\\Crud_WPF.csproj"
               }
             }
           }
@@ -48,6 +48,18 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.96.0, )"
+            },
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[28.0.1, )"
+            },
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[2.17.1, )"
+            },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
               "version": "[3.1.27, )"
@@ -55,6 +67,34 @@
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",
               "version": "[3.1.27, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyModel": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.3, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             }
           },
           "imports": [
@@ -75,15 +115,15 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\huxley.ruanis\\source\\repos\\Crud_WPF\\Crud_WPF\\Crud_WPF.csproj": {
+    "C:\\Users\\Huxxl\\source\\repos\\Crud_WPF\\Crud_WPF\\Crud_WPF.csproj": {
       "restore": {
-        "projectUniqueName": "C:\\Users\\huxley.ruanis\\source\\repos\\Crud_WPF\\Crud_WPF\\Crud_WPF.csproj",
+        "projectUniqueName": "C:\\Users\\Huxxl\\source\\repos\\Crud_WPF\\Crud_WPF\\Crud_WPF.csproj",
         "projectName": "Crud_WPF",
-        "projectPath": "C:\\Users\\huxley.ruanis\\source\\repos\\Crud_WPF\\Crud_WPF\\Crud_WPF.csproj",
+        "projectPath": "C:\\Users\\Huxxl\\source\\repos\\Crud_WPF\\Crud_WPF\\Crud_WPF.csproj",
         "frameworks": {
           "net48": {
             "projectReferences": {}

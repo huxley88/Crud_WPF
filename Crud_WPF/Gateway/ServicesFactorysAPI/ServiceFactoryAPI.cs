@@ -15,7 +15,7 @@ namespace Crud_WPF.Gateway.ServicesFactorysAPI
         {
             get
             {
-                string path = "/api/";
+                string path = "api/";
 
                 return path;
             }

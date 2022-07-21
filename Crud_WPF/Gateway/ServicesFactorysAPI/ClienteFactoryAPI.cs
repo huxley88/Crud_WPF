@@ -23,6 +23,18 @@ namespace Crud_WPF.Gateway.ServicesFactorysAPI
         {
             return $"{RotaAPI()}/incluir";
         }
+        public string GerarExcel()
+        {
+            return $"{RotaAPI()}/Excel";
+        }
+        public string ConsumirClientes()
+        {
+            return $"{RotaAPI()}/consumirClientes";
+        }
+        public string ImportarClientes()
+        {
+            return $"{RotaAPI()}/importarClientes";
+        }
         public string Alterar()
         {
             return $"{RotaAPI()}/alterar";

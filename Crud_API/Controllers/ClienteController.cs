@@ -1,7 +1,13 @@
 using Crud_WPF.DTO.Cliente;
 using Crud_WPF.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+using CsvHelper;
+using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Crud_API.Controllers
@@ -18,50 +24,134 @@ namespace Crud_API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> ObterTodos([FromBody] ClienteFiltroDTO filtros)
         {
-            return Ok(await _clienteServices.ObterTodos(filtros));
+            try
+            {
+                return Ok(await _clienteServices.ObterTodos(filtros));
+            }
+            catch (System.Exception ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("id")]
-        [Authorize]
         public async Task<IActionResult> ObterPorId(int id)
         {
-            return Ok(await _clienteServices.ObterPorId(id));
+            try
+            {
+                return Ok(await _clienteServices.ObterPorId(id));
+            }
+            catch (System.Exception ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
+
         }
 
         [HttpGet]
         [Route("cpf")]
-        [Authorize]
         public async Task<IActionResult> ObterPorCpf(string cpf)
         {
-            return Ok(await _clienteServices.ObterPorCpf(cpf));
+            try
+            {
+                return Ok(await _clienteServices.ObterPorCpf(cpf));
+            }
+            catch (System.Exception ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
+
         }
 
         [HttpPost]
         [Route("incluir")]
-        [Authorize]
         public async Task<IActionResult> Post([FromBody] ClienteDTO clienteDTO)
         {
-            return Ok(await _clienteServices.Incluir(clienteDTO));
+            try
+            {
+                return Ok(await _clienteServices.Incluir(clienteDTO));
+            }
+            catch (System.Exception ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("excel")]
+        public async Task<IActionResult> GerarExcel([FromBody] List<ClienteDTO> clientesDTO)
+        {
+            try
+            {
+                return Ok(await _clienteServices.GerarExcel(clientesDTO));
+            }
+            catch (System.Exception ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("consumirClientes")]
+        public async Task<IActionResult> ConsumirClientes()
+        {
+            try
+            {
+                return Ok(await _clienteServices.ConsumirClientes());
+            }
+            catch (System.Exception ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
+
+        }
+
+        [HttpPost]
+        [Route("importarClientes")]
+        public async Task<IActionResult> ImportarClientes([FromBody]string arquivo)
+        {
+            try
+            {
+                return Ok(await _clienteServices.ImportarClientes(arquivo));
+            }
+
+            catch (System.Exception ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
         }
 
         [HttpPut]
         [Route("alterar")]
-        [Authorize]
         public async Task<IActionResult> Put([FromBody] ClienteDTO clienteDTO)
         {
-            return Ok(await _clienteServices.Alterar(clienteDTO));
+            try
+            {
+                return Ok(await _clienteServices.Alterar(clienteDTO));
+            }
+
+            catch (System.Exception ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
+
         }
 
         [HttpDelete]
         [Route("excluir")]
-        [Authorize]
         public async Task<IActionResult> Delete([FromBody] ClienteDTO clienteDTO)
         {
-            return Ok(await _clienteServices.Remover(clienteDTO));
+            try
+            {
+                return Ok(await _clienteServices.Remover(clienteDTO));
+            }
+            catch (System.Exception ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
         }
     }
 }

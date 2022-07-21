@@ -29,7 +29,7 @@ namespace Crud_WPF.Gateway.HttpClientBase
             };
         }
 
-        private HttpRequestMessage RetornarInstanciaPorTipoRequisicao<URequisicao>(String enderecoAPI, URequisicao requisicao, HttpMethod tipoRequisicaoHttp) where URequisicao : class
+        public HttpRequestMessage RetornarInstanciaPorTipoRequisicao<URequisicao>(String enderecoAPI, URequisicao requisicao, HttpMethod tipoRequisicaoHttp) where URequisicao : class
         {
             StringContent contentString = null;
 
@@ -59,7 +59,6 @@ namespace Crud_WPF.Gateway.HttpClientBase
             {
                 using (var response = await _HttpClient.GetAsync(enderecoAPI))
                 {
-                    //ValidarTokenExpiradoLancarException(response);
                     string mensagemErrorAPI;
                     if (!response.IsSuccessStatusCode)
                     {
@@ -73,28 +72,12 @@ namespace Crud_WPF.Gateway.HttpClientBase
                     var retornoAPI = await response.Content.ReadAsStringAsync();
                     retornoRequisicaoAPIDTO.retornoRequisicoAPI = JsonConvert.DeserializeObject<TRetorno>(retornoAPI);
 
-                    var retornoDTO = new RespostaDTO();
-                    try
-                    {
-                        retornoDTO = JsonConvert.DeserializeObject<RespostaDTO>(retornoAPI);
-                    }
-                    catch (Exception ex)
-                    {
-                        retornoDTO.Mensagem = ex.Message;
-                    }
-
 
                     if (retornoRequisicaoAPIDTO.retornoRequisicoAPI == null)
                         mensagemErrorAPI = retornoAPI;
-                    else
-                        mensagemErrorAPI = retornoDTO.Mensagem;
 
                     retornoRequisicaoAPIDTO.retornoRequisicaoSucesso = true;
                 }
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return await EfetuarRequisicaoGetAPI<TRetorno>(enderecoAPI);
             }
             catch (Exception ex)
             {
@@ -117,7 +100,6 @@ namespace Crud_WPF.Gateway.HttpClientBase
 
                 using (var response = await _HttpClient.SendAsync(request))
                 {
-                   // ValidarTokenExpiradoLancarException(response);
                     var retornoAPI = await response.Content.ReadAsStringAsync();
                     string mensagemErrorAPI;
                     try
@@ -142,15 +124,11 @@ namespace Crud_WPF.Gateway.HttpClientBase
                     }
                     catch (Exception)
                     {
-                                throw new Exception($"Erro ao efetuar a chamada da api. ({response.ReasonPhrase}) \nDescrição: {retornoAPI}");
+                        throw new Exception($"Erro ao efetuar a chamada da api. ({response.ReasonPhrase}) \nDescrição: {retornoAPI}");
                     }
 
                     retornoRequisicaoAPIDTO.retornoRequisicaoSucesso = true;
                 }
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return await EfetuarRequisicaoAPI<URequisicao, TRetorno>(enderecoAPI, requisicao, tipoRequisicaoHttp);
             }
             catch (Exception ex)
             {
@@ -161,5 +139,45 @@ namespace Crud_WPF.Gateway.HttpClientBase
             return retornoRequisicaoAPIDTO;
         }
 
+        public async Task<RetornoRequisicaoAPIDTO<TRetorno>> EfetuarRequisicaoAPI<URequisicao, TRetorno>(String enderecoAPI, string requisicao, HttpMethod tipoRequisicaoHttp)
+           where URequisicao : class
+           where TRetorno : class
+        {
+            RetornoRequisicaoAPIDTO<TRetorno> retornoRequisicaoAPIDTO = new RetornoRequisicaoAPIDTO<TRetorno>();
+
+            try
+            {
+                HttpRequestMessage request = RetornarInstanciaPorTipoRequisicao(enderecoAPI, requisicao, tipoRequisicaoHttp);
+
+                using (var response = await _HttpClient.SendAsync(request))
+                {
+                    string mensagemErrorAPI;
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        var mensagemErro = await response.Content.ReadAsStringAsync();
+                        throw new Exception(mensagemErro);
+                    }
+
+                    if (response.Content == null)
+                        throw new Exception($"Não foram efetuadas respostas na chamada do endereço {enderecoAPI}.");
+
+                    var retornoAPI = await response.Content.ReadAsStringAsync();
+                    retornoRequisicaoAPIDTO.retornoRequisicoAPI = JsonConvert.DeserializeObject<TRetorno>(retornoAPI);
+
+
+                    if (retornoRequisicaoAPIDTO.retornoRequisicoAPI == null)
+                        mensagemErrorAPI = retornoAPI;
+
+                    retornoRequisicaoAPIDTO.retornoRequisicaoSucesso = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                retornoRequisicaoAPIDTO.retornoRequisicaoSucesso = false;
+                retornoRequisicaoAPIDTO.MensagemErro = ex.Message;
+            }
+
+            return retornoRequisicaoAPIDTO;
+        }
     }
 }

@@ -3,6 +3,8 @@ using Crud_WPF.Business.Interfaces;
 using Crud_WPF.Factories;
 using Crud_WPF.Factories.Interfaces;
 using Crud_WPF.Interfaces;
+using Crud_WPF.RabbitMQConsumer;
+using Crud_WPF.RabbitMQSender;
 using Crud_WPF.Repository;
 using Crud_WPF.Repository.Interfaces;
 using Crud_WPF.Services;
@@ -41,6 +43,13 @@ namespace Crud_API.Middlewares
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IClienteBusiness, ClienteBusiness>();
             services.AddScoped<IClienteServices, ClienteServices>();
+
+            #endregion
+
+            #region RabbitMQ
+
+            services.AddScoped<IRabbitMQConsumer, RabbitMQConsumer>();
+            services.AddScoped<IRabbitMQSender, RabbitMQSender>();
 
             #endregion
         }

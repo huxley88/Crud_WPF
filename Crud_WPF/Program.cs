@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Crud_WPF.Forms;
+using System;
 using System.Windows.Forms;
 
 namespace Crud_WPF
@@ -16,7 +14,7 @@ namespace Crud_WPF
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmPrincipal());
+            Application.Run(new FormPrincipal());
         }
     }
 }

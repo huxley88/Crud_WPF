@@ -18,33 +18,41 @@ namespace Crud_WPF.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ClienteDTO> Incluir(ClienteDTO clienteDTO)
+        public async Task<List<ClienteDTO>> ObterTodos(ClienteFiltroDTO filtros)
         {
-            return await _clienteBusiness.Incluir(clienteDTO);
+            return await _clienteBusiness.ObterTodos(filtros);
         }
-
-        public async Task<ClienteDTO> Alterar(ClienteDTO clienteDTO)
-        {
-            return await _clienteBusiness.Alterar(clienteDTO);
-        }
-
-        public async Task<ClienteDTO> Remover(ClienteDTO clienteDTO)
-        {
-            return await _clienteBusiness.Remover(clienteDTO);
-        }
-
         public async Task<ClienteDTO> ObterPorId(int id)
         {
             return await _clienteBusiness.ObterPorId(id);
         }
-
         public async Task<ClienteDTO> ObterPorCpf(string cpf)
         {
             return await _clienteBusiness.ObterPorCpf(cpf);
         }
-        public async Task<IEnumerable<List<ClienteDTO>>> ObterTodos(ClienteFiltroDTO filtros)
+        public async Task<ClienteDTO> Incluir(ClienteDTO clienteDTO)
         {
-            return await _clienteBusiness.ObterTodos(filtros);
+            return await _clienteBusiness.Incluir(clienteDTO);
+        }
+        public async Task<List<ClienteDTO>> GerarExcel(List<ClienteDTO> clientesDTO)
+        {
+            return await _clienteBusiness.GerarExcel(clientesDTO);
+        }
+        public async Task<bool> ImportarClientes(string arquivo)
+        {
+             return await _clienteBusiness.ImportarClientes(arquivo);
+        }
+        public async Task<bool> ConsumirClientes()
+        {
+            return await _clienteBusiness.ConsumirClientes();
+        }
+        public async Task<ClienteDTO> Alterar(ClienteDTO clienteDTO)
+        {
+            return await _clienteBusiness.Alterar(clienteDTO);
+        }
+        public async Task<ClienteDTO> Remover(ClienteDTO clienteDTO)
+        {
+            return await _clienteBusiness.Remover(clienteDTO);
         }
     }
 }

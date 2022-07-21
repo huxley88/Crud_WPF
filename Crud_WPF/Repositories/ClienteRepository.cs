@@ -7,13 +7,13 @@ using Crud_WPF.DTO.Cliente;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using System.Collections.Generic;
+using Crud_WPF.Util;
 
 namespace Crud_WPF.Repository
 {
     public class ClienteRepository : IClienteRepository
     {
         private readonly StringBuilder _sql;
-        private readonly StringBuilder _sqlTotalizador;
         private readonly StringBuilder _sqlParametros;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -25,13 +25,7 @@ namespace Crud_WPF.Repository
             _sql = new StringBuilder();
             _sql.Append(@"
                 SELECT  C.*
-                FROM    CLIENTE C WITH (NOLOCK)
-            ");
-
-            _sqlTotalizador = new StringBuilder();
-            _sqlTotalizador.Append(@"
-                SELECT COUNT(*)
-                  FROM CONTAGEM C WITH (NOLOCK)
+                FROM    CLIENTES C WITH (NOLOCK)
             ");
 
             _sqlParametros = new StringBuilder();
@@ -40,43 +34,40 @@ namespace Crud_WPF.Repository
             ");
         }
 
-        public async Task<IEnumerable<List<ClienteDTO>>> ObterTodos(ClienteFiltroDTO filtros)
+        public async Task<List<ClienteDTO>> ObterTodos(ClienteFiltroDTO filtros)
         {
             DynamicParameters parameters = new DynamicParameters();
 
-            if (filtros.Id > 0)
-            {
-                parameters.Add("@Id", filtros.Id, DbType.Int32);
-                _sqlParametros.AppendLine(@" AND C.LOJA = @Id ");
-            }
 
             if (!string.IsNullOrEmpty(filtros.Nome))
             {
-                parameters.Add("@Nome", filtros.Nome, DbType.Int32);
-                _sqlParametros.AppendLine(@" AND C.Nome like '%@Nome%' ");
+                parameters.Add("@Nome", filtros.Nome, DbType.String);
+                _sqlParametros.AppendLine(@" AND C.Nome LIKE CONCAT('%', @Nome, '%') ");
             }
 
             if (!string.IsNullOrEmpty(filtros.Cpf))
             {
                 parameters.Add("@Cpf", filtros.Cpf, DbType.String);
-                _sqlParametros.AppendLine(@" AND C.Cpf = @Cpf");
+                _sqlParametros.AppendLine(@" AND  C.Cpf LIKE CONCAT('%', @Cpf, '%') ");
             }
 
-            if (!char.IsWhiteSpace(filtros.Sexo))
+            if (filtros.Sexo != '\0')
             {
                 parameters.Add("@Sexo", filtros.Sexo, DbType.String);
                 _sqlParametros.AppendLine(@" AND C.Sexo = @Sexo");
             }
 
-            if (filtros.Aniversario != null)
+            if (filtros.Aniversario.ToString("dd/MM/yyyy") != "01/01/0001")
             {
-                parameters.Add("@Aniversario", filtros.Sexo, DbType.String);
+                parameters.Add("@Aniversario", filtros.Aniversario.ToString("yyyy-MM-dd"), DbType.String);
                 _sqlParametros.AppendLine(@" AND C.Aniversario = @Aniversario");
             }
 
-            var resposta = await _unitOfWork.Connection.QueryAsync<List<ClienteDTO>>(_sql.ToString(), parameters);
-
-            return resposta;
+            _sql.Append(_sqlParametros.ToString());
+            var resposta = await _unitOfWork.Connection.QueryAsync<ClienteDTO>(_sql.ToString(), parameters);
+            List<ClienteDTO> clientes = new List<ClienteDTO>();
+            clientes.AddRange(resposta);
+            return clientes;
         }
         public async Task<ClienteDTO> ObterPorId(int id)
         {
@@ -112,12 +103,26 @@ namespace Crud_WPF.Repository
         {
             try
             {
-                await _unitOfWork.Connection.InsertAsync(cliente, _unitOfWork.Transaction);
+                var retorno = await _unitOfWork.Connection.InsertAsync(cliente, _unitOfWork.Transaction);
+                cliente.Retorno = (int)EnumRetorno.Enum.Sucesso;
                 return cliente;
             }
             catch (System.Exception ex)
             {
-
+                throw new System.Exception(message: "Erro ao incluir cliente" + ex);
+            }
+        }
+        public async Task ImportarClientes(List<ClienteDTO> clientes)
+        {
+            try
+            {
+                foreach (var cliente in clientes)
+                {
+                    var retorno = await _unitOfWork.Connection.InsertAsync(cliente, _unitOfWork.Transaction);
+                }
+            }
+            catch (System.Exception ex)
+            {
                 throw new System.Exception(message: "Erro ao incluir cliente" + ex);
             }
         }
@@ -126,6 +131,7 @@ namespace Crud_WPF.Repository
             try
             {
                 await _unitOfWork.Connection.UpdateAsync(cliente, _unitOfWork.Transaction);
+                cliente.Retorno = (int)EnumRetorno.Enum.Sucesso;
                 return cliente;
             }
             catch (System.Exception ex)
@@ -138,6 +144,7 @@ namespace Crud_WPF.Repository
             try
             {
                 await _unitOfWork.Connection.DeleteAsync(cliente, _unitOfWork.Transaction);
+                cliente.Retorno = (int)EnumRetorno.Enum.Sucesso;
                 return cliente;
             }
             catch (System.Exception ex)
